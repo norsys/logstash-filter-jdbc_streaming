@@ -62,4 +62,9 @@ module LogStash module PluginMixins module JdbcStreaming
       raise e
     end
   end # def prepare_jdbc_connection
+
+  public
+  def close_jdbc_connection
+    @database.disconnect
+  end
 end end end

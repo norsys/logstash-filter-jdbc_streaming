@@ -116,6 +116,10 @@ module LogStash module Filters class JdbcStreaming < LogStash::Filters::Base
     prepare_connected_jdbc_cache
   end
 
+  def close
+    close_jdbc_connection
+  end
+
   def filter(event)
     result = cache_lookup(event) # should return a JdbcCachePayload
 
@@ -129,6 +133,7 @@ module LogStash module Filters class JdbcStreaming < LogStash::Filters::Base
     else
       process_event(event, result.payload)
     end
+    close_jdbc_connection
   end
 
   # ----------------------------------------
